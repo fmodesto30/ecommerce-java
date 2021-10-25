@@ -1,6 +1,7 @@
 package com.management.delivery.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.management.domain.exception.RecordNotFoundException;
@@ -57,11 +59,16 @@ public class FuncionarioController {
 	
 	
 	@GetMapping("/funcionarios/{id}")
-	public ResponseEntity<FuncionarioEntity> getEmployeeById(@PathVariable("id") Long id) throws RecordNotFoundException, Exception {
+	public ResponseEntity<Optional<FuncionarioEntity>> getEmployeeById(@PathVariable("id") Long id) throws RecordNotFoundException, Exception {
 		
-		
-		FuncionarioEntity funcionarioEntity = funcionarioService.findById(id);
-		
-		return new ResponseEntity<FuncionarioEntity>(funcionarioEntity, HttpStatus.OK);
+		Optional<FuncionarioEntity> funcionarioEntity = funcionarioService.findById(id);
+		return new ResponseEntity<Optional<FuncionarioEntity>>(funcionarioEntity, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Lista Funcionario com ResponseBody")
+	@GetMapping("/funcionariosJPA/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Optional<FuncionarioEntity> getCarro() throws Exception{
+		return funcionarioService.findById(1L);
 	}
 }
