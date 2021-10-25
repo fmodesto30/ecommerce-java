@@ -1,6 +1,7 @@
 package com.management.domain.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,21 +21,18 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	public List<FuncionarioEntity> listAll() throws Exception {
 
 		List<FuncionarioEntity> funcionarioList = funcionarioDAO.listAll();
-
 		if (!funcionarioList.isEmpty())
 			return funcionarioList;		
 		else
             throw new RecordNotFoundException("Não existe funcionário(s) !");
 	}
 	
-	public FuncionarioEntity findById(long id) throws Exception{
+	@Override
+	public Optional<FuncionarioEntity> findById(long id) throws Exception {
 		
-		FuncionarioEntity funcionarioEntity = funcionarioDAO.findById(id);
-		
-		if(funcionarioEntity != null && !funcionarioEntity.equals(null))
-			return funcionarioEntity;
-		else
-            throw new RecordNotFoundException("Esse funcionário(a) não existe !");
+		FuncionarioEntity funcionarioEntity = funcionarioDAO.findById(id)
+					.orElseThrow(() -> new RecordNotFoundException("Esse funcionário(a) não existe !"));		
+		return Optional.of(funcionarioEntity);
 	}
 
 }
