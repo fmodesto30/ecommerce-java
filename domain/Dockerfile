@@ -7,4 +7,4 @@ EXPOSE 8080
 ADD target/TesteAWS.jar TesteAWS.jar
 
 # Run the jar file 
-ENTRYPOINT ["java","-jar","TesteAWS.jar"]
+ENTRYPOINT ["java","-jar","TesteAWS.jar"] 
