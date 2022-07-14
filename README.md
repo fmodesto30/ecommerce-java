@@ -1,1 +1,1 @@
-# Management
+# Eclipse integrated with CodeCommit
