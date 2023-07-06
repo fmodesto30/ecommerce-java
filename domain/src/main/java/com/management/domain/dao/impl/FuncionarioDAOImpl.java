@@ -26,7 +26,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO{
 		final StringBuffer sql = new StringBuffer();
 
 		sql.append("\n SELECT * ");
-		sql.append("\n FROM TB_FUNCIONARIO ");
+		sql.append("\n FROM TB_FUNCIONARIOS ");
 
 		List<FuncionarioEntity> funcionarioList =  jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper(FuncionarioEntity.class));
 		return funcionarioList;
@@ -49,7 +49,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO{
 		
 		final StringBuffer sql = new StringBuffer();
 		sql.append("\n SELECT * ");
-		sql.append("\n FROM TB_FUNCIONARIO");
+		sql.append("\n FROM TB_FUNCIONARIOS");
 		sql.append("\n WHERE id = ? ");
 		
 		Object[] args = {id};
