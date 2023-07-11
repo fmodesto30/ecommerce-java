@@ -1,8 +1,0 @@
-com\management\domain\model\Beneficios.class
-com\management\domain\exception\RecordNotFoundException.class
-com\management\domain\service\impl\FuncionarioServiceImpl.class
-com\management\domain\model\FuncionarioEntity.class
-com\management\domain\dao\FuncionarioDAO.class
-com\management\domain\swagger\SwaggerConfig.class
-com\management\domain\dao\impl\FuncionarioDAOImpl.class
-com\management\domain\service\FuncionarioService.class
