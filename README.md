@@ -14,7 +14,7 @@ This application serves as a tool to search for Amazon products using the ASIN c
 
 ### Environment Setup
 
-1. Clone the repository: `git clone git@github.com:fmodesto30/ecommerce-java.git`
+1. Clone the repository: `git clone git@github.com:fmodesto30/ecommerce-java.git`, use develop-marketplace branch.
 2. Navigate to the root of the project directory: `cd ecommerce-java`
 3. Install dependencies: `mvn clean install`
 4. Run the application: `mvn spring-boot:run`
