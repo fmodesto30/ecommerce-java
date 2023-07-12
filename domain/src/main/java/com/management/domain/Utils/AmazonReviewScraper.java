@@ -21,7 +21,7 @@ public class AmazonReviewScraper {
 	private ProductEntity productEntity;
 	private ReviewEntity reviewEntity;
 	private Document document;
-	private int timer = 5000;
+	private int timer = 3000;
 
 	public Optional<List<ProductEntity>> reviewScraper(String asin) throws Exception {
 

@@ -1,7 +1,6 @@
 package com.management.delivery.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.management.domain.Utils.AmazonReviewScraper;
-import com.management.domain.dao.impl.ProductDAOImpl.ProductReviews;
 import com.management.domain.exception.RecordNotFoundException;
 import com.management.domain.model.ProductEntity;
 import com.management.domain.model.ReviewEntity;
@@ -52,8 +50,10 @@ public class ProductController {
 	ReviewService reviewService;
 
 	@GetMapping("/feedback")
-	@ApiOperation(value = "Retorna uma lista de funcionários", notes = "Receber dados em formato ExemploDTO, salvar em banco de dados e devolver json com id.", response = String.class, authorizations = {
-			@Authorization(value = "BasicAuth") })
+	@ApiOperation(value = "Product with feedback list.", 
+				  notes = "Receive ASIN as parameter check if the product exists and save the records.", 
+				  response = String.class, 
+				  authorizations = {@Authorization(value = "BasicAuth") })
 	public ResponseEntity<Optional<List<ProductEntity>>> getProductByASIN(@RequestParam("asin") String asin)
 			throws RecordNotFoundException, Exception {
 		
@@ -75,8 +75,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/lastProducts")
-	@ApiOperation(value = "Retorna uma lista de funcionários", 
-				  notes = "Receber dados em formato ExemploDTO, salvar em banco de dados e devolver json com id.", 
+	@ApiOperation(value = "Return a list of last product searched.", 
 				  response = String.class, authorizations = {@Authorization(value = "BasicAuth") })
 	public ResponseEntity<Optional<List<ProductEntity>>> getLastProducts()	throws RecordNotFoundException, Exception {
 		

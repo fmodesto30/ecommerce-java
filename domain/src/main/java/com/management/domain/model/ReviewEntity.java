@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +44,10 @@ public class ReviewEntity {
 	
 	@Column(name = "time", nullable = false)
 	private Date time;
+	
+	@ManyToOne
+	@JoinColumn(name="product_id", nullable=false)
+	private ProductEntity productEntity;
 
 	/**
 	 * @return the reviewId
@@ -155,14 +161,25 @@ public class ReviewEntity {
 		this.rating = rating;
 	}
 
+	public ProductEntity getProductEntity() {
+		return productEntity;
+	}
+
+	public void setProductEntity(ProductEntity productEntity) {
+		this.productEntity = productEntity;
+	}
+
+	public Long getReviewId() {
+		return reviewId;
+	}
+
 	@Override
 	public String toString() {
-		return "ReviewEntity [" + (reviewId != null ? "reviewId=" + reviewId + ", " : "") + (asin != null ? "asin=" + asin + ", " : "")
-				+ (customerName != null ? "customerName=" + customerName + ", " : "")
-				+ (feedBackCode != null ? "feedBackCode=" + feedBackCode + ", " : "")
-				+ (feedBack != null ? "feedBack=" + feedBack + ", " : "")
-				+ (feedBackDate != null ? "feedBackDate=" + feedBackDate + ", " : "")
-				+ (rating != null ? "rating=" + rating + ", " : "") + (time != null ? "time=" + time : "") + "]";
+		return "ReviewEntity [reviewId=" + reviewId + ", asin=" + asin + ", customerName=" + customerName
+				+ ", feedBackCode=" + feedBackCode + ", feedBack=" + feedBack + ", feedBackDate=" + feedBackDate
+				+ ", rating=" + rating + ", time=" + time + ", productEntity=" + productEntity + "]";
 	}
+	
+	
 
 }
