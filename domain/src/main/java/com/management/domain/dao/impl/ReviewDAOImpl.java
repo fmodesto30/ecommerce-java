@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.management.domain.dao.ReviewDAO;
-import com.management.domain.model.ProductEntity;
 import com.management.domain.model.ReviewEntity;
 
 @Component
@@ -17,9 +16,6 @@ public class ReviewDAOImpl implements ReviewDAO{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
-	ReviewEntity reviewEntity;
-	ProductEntity productEntity;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override

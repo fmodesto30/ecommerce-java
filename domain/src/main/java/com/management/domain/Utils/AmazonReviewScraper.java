@@ -18,10 +18,11 @@ import com.management.domain.model.ReviewEntity;
 @Service
 public class AmazonReviewScraper {
 
+	private Document document;
 	private ProductEntity productEntity;
 	private ReviewEntity reviewEntity;
-	private Document document;
-	private int timer = 3000;
+	private int TIMER = 3000;
+	private static String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
 
 	public Optional<List<ProductEntity>> reviewScraper(String asin) throws Exception {
 
@@ -71,9 +72,7 @@ public class AmazonReviewScraper {
  		while (retryCount < maxRetries) {
 			
  			try {
- 				setDocument(Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
- 						.referrer("https://www.google.com")
- 						.get());
+ 				setDocument(Jsoup.connect(url).userAgent(USER_AGENT).get());
  				
  			} catch (Exception e) {
  				throw new Exception("Product not found");
@@ -88,9 +87,8 @@ public class AmazonReviewScraper {
 				retryCount++;
 				if (retryCount < maxRetries) {
 					try {
-						Thread.sleep(timer);
+						Thread.sleep(TIMER);
 					} catch (InterruptedException e) {
-						// Handle InterruptedException if necessary
 						e.printStackTrace();
 					}
 				}

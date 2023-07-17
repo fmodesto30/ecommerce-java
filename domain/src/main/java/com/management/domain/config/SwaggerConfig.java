@@ -1,4 +1,4 @@
-package com.management.domain.swagger;
+package com.management.domain.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
