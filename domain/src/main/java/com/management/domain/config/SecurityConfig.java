@@ -38,21 +38,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/v1/lastProducts","/v1/feedback", "/v1/authenticate", "/v1/new", "/h2-console/**").permitAll()
+            .antMatchers("/v1/authenticate", "/v1/new", "/v1/checkToken", "/v1/lastProducts", "/h2-console/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+        	// Configure H2 console settings
+        	 http.headers().frameOptions().sameOrigin(); // Set X-Frame-Options to SAMEORIGIN
     }
 
     @Bean

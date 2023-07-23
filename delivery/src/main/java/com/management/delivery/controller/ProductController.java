@@ -23,10 +23,10 @@ import com.management.domain.Utils.AmazonReviewScraper;
 import com.management.domain.dto.AuthRequest;
 import com.management.domain.exception.RecordNotFoundException;
 import com.management.domain.model.ProductEntity;
-import com.management.domain.model.UserEntity;
 import com.management.domain.service.JwtService;
 import com.management.domain.service.ProductService;
 import com.management.domain.service.ReviewService;
+import com.management.domain.service.TokenValidationService;
 import com.management.domain.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -38,7 +38,7 @@ import io.swagger.annotations.Authorization;
 @RestController
 @RequestMapping("/v1")
 @Api(value = "API REST PRODUCTS")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 		@ApiResponse(code = 400, message = "Invalid Request"),
 		@ApiResponse(code = 401, message = "You don't have access to this resource"),
@@ -51,21 +51,24 @@ public class ProductController {
 
 	@Autowired
 	AmazonReviewScraper amazonReviewScraper;
-	
-    @Autowired
-    AuthenticationManager authenticationManager;
+
+	@Autowired
+	AuthenticationManager authenticationManager;
 
 	@Autowired
 	ProductService productService;
 
 	@Autowired
 	ReviewService reviewService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	JwtService jwtService;
+
+	@Autowired
+	TokenValidationService tokenValidationService;
 
 	@GetMapping("/feedback")
 //	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -104,7 +107,8 @@ public class ProductController {
 
 	@PostMapping("/authenticate")
 	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authRequest.getUsername().toUpperCase(), authRequest.getPassword().toUpperCase()));
 		if (authentication.isAuthenticated()) {
 			return jwtService.generateToken(authRequest.getUsername());
 		} else {
@@ -112,11 +116,16 @@ public class ProductController {
 		}
 
 	}
-	
+
 	@PostMapping("/new")
-	public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity userEntity) throws Exception {
-		userService.addNewUser(userEntity);
-		return new ResponseEntity<UserEntity>(userEntity, HttpStatus.OK);
+	public ResponseEntity<AuthRequest> addUser(@RequestBody AuthRequest authRequest) throws Exception {
+		userService.addNewUser(authRequest);
+		return new ResponseEntity<AuthRequest>(authRequest, HttpStatus. OK);
+	}
+
+	@PostMapping("/checkToken")
+	public Boolean checkToken(@RequestBody String token) {
+		return tokenValidationService.isTokenValid(token);
 	}
 
 }

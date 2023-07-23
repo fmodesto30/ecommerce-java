@@ -3,8 +3,6 @@ INSERT INTO
 VALUES
   	('B098NY9KW8', 'Momcozy Muslin Swaddle Blankets', '$23,99', 'Material	Cotton Color	Brown Brand	Momcozy Special Feature	Skin Friendly, Lightweight, Durable Style	Modern', '2023-07-07 10:30:00' );
   	
-  		
-  	
 INSERT INTO 
 	TB_REVIEW (ASIN, FEEDBACK_CODE, CUSTOMER_NAME, FEEDBACK, FEEDBACK_DATE, RATING, TIME) 
 VALUES

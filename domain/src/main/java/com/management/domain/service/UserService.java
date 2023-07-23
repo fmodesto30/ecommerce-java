@@ -11,19 +11,23 @@ import org.springframework.stereotype.Component;
 
 import com.management.domain.config.UserInfo;
 import com.management.domain.dao.UserDAO;
+import com.management.domain.dto.AuthRequest;
 import com.management.domain.model.UserEntity;
 
 @Component
-public class UserService implements  UserDetailsService {
+public class UserService implements UserDetailsService {
 
 	@Autowired
 	UserDAO userDAO;
-	
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	private UserEntity userEntity;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
+
 		Optional<UserEntity> user;
 		try {
 			user = userDAO.findByName(username);
@@ -34,9 +38,21 @@ public class UserService implements  UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 	}
-	
-	public Optional<UserEntity> addNewUser(UserEntity userEntity) throws Exception {
-		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		return userDAO.addUser(userEntity);
+
+	public Optional<UserEntity> addNewUser(AuthRequest authRequest) throws Exception {
+
+		Optional<UserEntity> user = userDAO.findByName(authRequest.getUsername().toUpperCase());
+		
+		if (user.isEmpty()) {
+
+			userEntity = new UserEntity();
+			userEntity.setName(authRequest.getUsername().toUpperCase());
+			userEntity.setRole("ROLE_ADMIN");
+			userEntity.setPassword(passwordEncoder.encode(authRequest.getPassword().toUpperCase()));
+			userEntity.setEmail(authRequest.getEmail().toLowerCase());
+			return userDAO.addUser(userEntity);
+		}
+		
+		throw new Exception("Already Exist!");
 	}
 }

@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 		sql.append("\n TIME         )");
 		sql.append("\n VALUES ( ?, ?, ?, ?, ?)");
 		
-		Object[] args = { userEntity.getName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRoles(), new Date() };
+		Object[] args = { userEntity.getName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole(), new Date() };
 		
 		int rowsAffected = jdbcTemplate.update(sql.toString(), args);
 		if (rowsAffected == 0) {

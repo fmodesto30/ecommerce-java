@@ -21,7 +21,7 @@ public class UserInfo implements UserDetails{
     public UserInfo(UserEntity userEntity) {
         name=userEntity.getName();
         password=userEntity.getPassword();
-        authorities= Arrays.stream(userEntity.getRoles().split(","))
+        authorities= Arrays.stream(userEntity.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

@@ -31,7 +31,7 @@ public class UserEntity {
 	@Column(name = "password", nullable = false, length = 6)
 	private String password;
 	
-	@Column(name = "roles", nullable = false)
-	private String roles;
+	@Column(name = "role", nullable = false)
+	private String role;
 
 }
