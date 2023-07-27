@@ -53,6 +53,6 @@ public class UserService implements UserDetailsService {
 			return userDAO.addUser(userEntity);
 		}
 		
-		throw new Exception("Already Exist!");
+		return Optional.empty();
 	}
 }

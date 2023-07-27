@@ -3,6 +3,7 @@ package com.management.delivery.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,8 +108,8 @@ public class ProductController {
 
 	@PostMapping("/authenticate")
 	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authRequest.getUsername().toUpperCase(), authRequest.getPassword().toUpperCase()));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				authRequest.getUsername().toUpperCase(), authRequest.getPassword().toUpperCase()));
 		if (authentication.isAuthenticated()) {
 			return jwtService.generateToken(authRequest.getUsername());
 		} else {
@@ -119,12 +120,15 @@ public class ProductController {
 
 	@PostMapping("/new")
 	public ResponseEntity<AuthRequest> addUser(@RequestBody AuthRequest authRequest) throws Exception {
-		userService.addNewUser(authRequest);
-		return new ResponseEntity<AuthRequest>(authRequest, HttpStatus. OK);
+
+		if (userService.addNewUser(authRequest).isEmpty())
+			return new ResponseEntity<AuthRequest>(authRequest, HttpStatus.CONFLICT);
+
+		return new ResponseEntity<AuthRequest>(authRequest, HttpStatus.OK);
 	}
 
 	@PostMapping("/checkToken")
-	public Boolean checkToken(@RequestBody String token) {
+	public Boolean checkToken(@RequestBody String token) throws JSONException {
 		return tokenValidationService.isTokenValid(token);
 	}
 

@@ -27,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
 		sql.append("\n FROM TB_USER");
 		sql.append("\n WHERE NAME = ? ");
 		
-		Object[] args = { username };
+		Object[] args = { username.toUpperCase() };
 		UserEntity userEntity;
 		
 		try {
@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
 		sql.append("\n NAME,         ");
 		sql.append("\n EMAIL,        ");
 		sql.append("\n PASSWORD,     ");
-		sql.append("\n ROLES,        ");
+		sql.append("\n ROLE,        ");
 		sql.append("\n TIME         )");
 		sql.append("\n VALUES ( ?, ?, ?, ?, ?)");
 		

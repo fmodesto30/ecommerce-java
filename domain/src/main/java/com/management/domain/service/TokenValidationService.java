@@ -1,5 +1,7 @@
 package com.management.domain.service;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,11 @@ public class TokenValidationService {
         this.userDetailsService = userDetailsService;
     }
 
-    public Boolean isTokenValid(String token) {
+    public Boolean isTokenValid(String jsonData) throws JSONException {
+        JSONObject obj = new JSONObject(jsonData);
+        String authHeader = obj.getJSONObject("headers").getString("Authorization");
+        String token = authHeader.replace("Bearer ", "");
+        
         String username = jwtService.extractUsername(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         return jwtService.validateToken(token, userDetails);

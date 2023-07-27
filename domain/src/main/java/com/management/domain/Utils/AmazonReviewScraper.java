@@ -69,7 +69,7 @@ public class AmazonReviewScraper {
 		int retryCount = 0;
 		String product = "";
 
- 		while (retryCount < maxRetries) {
+ 		while (retryCount < maxRetries ||!product.isBlank()) {
 			
  			try {
  				setDocument(Jsoup.connect(url).userAgent(USER_AGENT).get());
@@ -85,7 +85,7 @@ public class AmazonReviewScraper {
 				break;
 			} else {
 				retryCount++;
-				if (retryCount < maxRetries) {
+				if (retryCount < maxRetries ) {
 					try {
 						Thread.sleep(TIMER);
 					} catch (InterruptedException e) {
